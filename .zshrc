@@ -20,6 +20,9 @@ repos=(
   "zsh-users/zsh-autosuggestions"
 )
 
+# zsh-history-substring-search configuration
+export HISTORY_SUBSTRING_SEARCH_ENSURE_UNIQUE=1
+
 # Load plugins
 plugin-load $repos
 
