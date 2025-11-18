@@ -40,6 +40,9 @@ setopt INC_APPEND_HISTORY
 # Source API keys if available
 [[ -f ~/.api_keys ]] && source ~/.api_keys
 
+# Set WORDCHARS to exclude "/"
+WORDCHARS='*?_-.[]~=&;!#$%^(){}<>|`@'
+
 # Bind keys for history substring search
 bindkey "^[[1;3A" history-substring-search-up # Alt+Up
 bindkey "^[[1;3B" history-substring-search-down # Alt+Down
