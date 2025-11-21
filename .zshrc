@@ -1,16 +1,18 @@
+# Zsh config directory (same location as this file)
+ZSHDIR="${0:A:h}"
+
+# Plugin directory
+[[ ! -d "${ZSHDIR}/plugins" ]] && mkdir -p "${ZSHDIR}/plugins"
+
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+if [[ -r "${ZSHDIR}/plugins/powerlevel10k/gitstatus/usrbin/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${ZSHDIR}/plugins/powerlevel10k/gitstatus/usrbin/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-# Plugin directory
-ZPLUGINDIR=~/.zsh/plugins
-[[ ! -d $ZPLUGINDIR ]] && mkdir -p $ZPLUGINDIR
-
 # Source zsh_unplugged
-source ~/.zsh/.zsh_unplugged
+source "${ZSHDIR}/.zsh_unplugged"
 
 # Plugins list
 repos=(
@@ -20,14 +22,14 @@ repos=(
   "zsh-users/zsh-autosuggestions"
 )
 
-# zsh-history-substring-search configuration
-export HISTORY_SUBSTRING_SEARCH_ENSURE_UNIQUE=1
-
 # Load plugins
 plugin-load $repos
 
+# zsh-history-substring-search configuration
+export HISTORY_SUBSTRING_SEARCH_ENSURE_UNIQUE=1
+
 # History configuration
-HISTFILE=~/.zsh_history
+HISTFILE="${ZSHDIR}/.zsh_history"
 HISTSIZE=10000
 SAVEHIST=10000
 setopt APPEND_HISTORY
@@ -41,7 +43,7 @@ export PATH="$HOME/.local/bin:$PATH"
 [[ -s "/usr/share/Modules/init/zsh" ]] && source /usr/share/Modules/init/zsh
 
 # Source API keys if available
-[[ -f ~/.api_keys ]] && source ~/.api_keys
+[[ -f "${ZSHDIR}/.api_keys" ]] && source "${ZSHDIR}/.api_keys"
 
 # Set WORDCHARS to exclude "/"
 WORDCHARS='*?_-.[]~=&;!#$%^(){}<>|`@'
@@ -67,6 +69,9 @@ alias wsync="wandb sync --sync-all"
 alias ll="ls -laFh --color=auto"
 alias c=clear
 alias restart-plasmashell="systemctl --user restart plasma-plasmashell"
+alias rebuild="sudo sh -c 'nixos-rebuild switch |& nom'"
+alias rebuildU="sudo sh -c 'nixos-rebuild switch --upgrade |& nom'"
+alias gc="sudo sh -c 'nix-collect-garbage --delete-older-than 7d |& nom'"
 
 # Mounts for local machine
 alias mount-robust="sshfs -o follow_symlinks,reconnect,ServerAliveInterval=15,ServerAliveCountMax=3"
