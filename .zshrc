@@ -1,22 +1,25 @@
+# TODO: switch to https://github.com/starship/starship
+
 # Zsh config directory (same location as this file)
-ZSHDIR="${0:A:h}"
+ZDOTDIR="${0:A:h}"
 
 # Plugin directory
-[[ ! -d "${ZSHDIR}/plugins" ]] && mkdir -p "${ZSHDIR}/plugins"
+[[ ! -d "${ZDOTDIR}/plugins" ]] && mkdir -p "${ZDOTDIR}/plugins"
 
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${ZSHDIR}/plugins/powerlevel10k/gitstatus/usrbin/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${ZSHDIR}/plugins/powerlevel10k/gitstatus/usrbin/p10k-instant-prompt-${(%):-%n}.zsh"
+if [[ -r "${ZDOTDIR}/plugins/powerlevel10k/powerlevel10k.zsh-theme" ]]; then
+  source "${ZDOTDIR}/plugins/powerlevel10k/powerlevel10k.zsh-theme"
 fi
 
 # Source zsh_unplugged
-source "${ZSHDIR}/.zsh_unplugged"
+source "${ZDOTDIR}/.zsh_unplugged"
 
 # Plugins list
 repos=(
   "romkatv/powerlevel10k"
+  # "axieax/zsh-starship"
   "zdharma-continuum/fast-syntax-highlighting"
   "zsh-users/zsh-history-substring-search"
   "zsh-users/zsh-autosuggestions"
@@ -29,7 +32,7 @@ plugin-load $repos
 export HISTORY_SUBSTRING_SEARCH_ENSURE_UNIQUE=1
 
 # History configuration
-HISTFILE="${ZSHDIR}/.zsh_history"
+HISTFILE="$HOME/.zsh_history"
 HISTSIZE=10000
 SAVEHIST=10000
 setopt APPEND_HISTORY
@@ -43,7 +46,7 @@ export PATH="$HOME/.local/bin:$PATH"
 [[ -s "/usr/share/Modules/init/zsh" ]] && source /usr/share/Modules/init/zsh
 
 # Source API keys if available
-[[ -f "${ZSHDIR}/.api_keys" ]] && source "${ZSHDIR}/.api_keys"
+[[ -f "${ZDOTDIR}/.api_keys" ]] && source "${ZDOTDIR}/.api_keys"
 
 # Set WORDCHARS to exclude "/"
 WORDCHARS='*?_-.[]~=&;!#$%^(){}<>|`@'
@@ -126,4 +129,4 @@ function cd() {
 }
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+[[ ! -f $ZDOTDIR/.p10k.zsh ]] || source $ZDOTDIR/.p10k.zsh
