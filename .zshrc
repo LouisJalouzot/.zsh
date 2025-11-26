@@ -46,7 +46,7 @@ export PATH="$HOME/.local/bin:$PATH"
 [[ -s "/usr/share/Modules/init/zsh" ]] && source /usr/share/Modules/init/zsh
 
 # Source API keys if available
-[[ -f "${ZDOTDIR}/.api_keys" ]] && source "${ZDOTDIR}/.api_keys"
+[[ -f "${HOME}/.api_keys" ]] && source "${HOME}/.api_keys"
 
 # Set WORDCHARS to exclude "/"
 WORDCHARS='*?_-.[]~=&;!#$%^(){}<>|`@'
