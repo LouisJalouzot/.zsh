@@ -1,7 +1,7 @@
 # TODO: switch to https://github.com/starship/starship
 
 # Zsh config directory (same location as this file)
-ZDOTDIR="${0:A:h}"
+ZDOTDIR="${${(%):-%N}:A:h}"
 
 # Plugin directory
 [[ ! -d "${ZDOTDIR}/plugins" ]] && mkdir -p "${ZDOTDIR}/plugins"
