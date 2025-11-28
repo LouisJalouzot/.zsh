@@ -1,3 +1,4 @@
+#!/bin/zsh
 # TODO: switch to https://github.com/starship/starship
 
 # Zsh config directory (same location as this file)
@@ -97,9 +98,19 @@ if [[ "$(whoami)" == "uml34gj" ]]; then
     eval $(idrenv -d $1)
   }
 
-  alias run_cpu="srun --cpus-per-task=6 --hint=nomultithread --partition=prepost --account=ioj@cpu --qos=qos_cpu-dev --pty zsh -i"
-  alias run_cpu48="srun --cpus-per-task=48 --hint=nomultithread --partition=prepost --account=ioj@cpu --qos=qos_cpu-dev --pty zsh -i"
-  alias run_cpu40_p1="srun --cpus-per-task=40 --hint=nomultithread --account=ioj@cpu --qos=qos_cpu-dev --pty zsh -i"
+  # Set default SLURM default options
+  export SBATCH_ACCOUNT=ioj@cpu
+  export SLURM_ACCOUNT=ioj@cpu
+  export SBATCH_CPUS_PER_TASK=2
+  export SLURM_CPUS_PER_TASK=2
+  export SBATCH_PARTITION=cpu_p1,prepost,visu,compil,compil_h100
+  export SLURM_PARTITION=cpu_p1,prepost,visu,compil,compil_h100
+  export SBATCH_HINT=nomultithread
+  export SLURM_HINT=nomultithread
+
+  # Aliases for running interactive jobs
+  alias run_cpu="srun --qos=qos_cpu-dev --pty zsh -i"
+  alias run_cpu40="run_cpu --cpus-per-task=40"
   alias run_h100="srun --gres=gpu:1 --constraint=h100 --cpus-per-task=24 --hint=nomultithread --account=ioj@h100 --qos=qos_gpu_h100-dev --time=2:00:00 --pty zsh -i"
 fi
 
