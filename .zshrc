@@ -107,12 +107,14 @@ if [[ "$(whoami)" == "uml34gj" ]]; then
   export SLURM_PARTITION=cpu_p1,prepost,visu,compil,compil_h100
   export SBATCH_HINT=nomultithread
   export SLURM_HINT=nomultithread
+  export SBATCH_TIMELIMIT=2:00:00
+  export SLURM_TIMELIMIT=2:00:00
 
   # Aliases for running interactive jobs
   function run_cpu() {
     srun --qos=qos_cpu-dev "$@" -D "$(pwd)" --pty zsh -i
   }
-  alias run_h100="srun --gres=gpu:1 --constraint=h100 --cpus-per-task=24 --hint=nomultithread --account=ioj@h100 --qos=qos_gpu_h100-dev --time=2:00:00 -D \$(pwd) --pty zsh -i"
+  alias run_h100="srun --gres=gpu:1 --constraint=h100 --cpus-per-task=24 --account=ioj@h100 --partition=gpu_p6 --qos=qos_gpu_h100-dev --time=2:00:00 -D \$(pwd) --pty zsh -i"
 fi
 
 # Custom functions
