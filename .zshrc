@@ -110,9 +110,9 @@ if [[ "$(whoami)" == "uml34gj" ]]; then
 
   # Aliases for running interactive jobs
   function run_cpu() {
-    srun --qos=qos_cpu-dev "$@" --pty zsh -i
+    srun --qos=qos_cpu-dev "$@" -D "$(pwd)" --pty zsh -i
   }
-  alias run_h100="srun --gres=gpu:1 --constraint=h100 --cpus-per-task=24 --hint=nomultithread --account=ioj@h100 --qos=qos_gpu_h100-dev --time=2:00:00 --pty zsh -i"
+  alias run_h100="srun --gres=gpu:1 --constraint=h100 --cpus-per-task=24 --hint=nomultithread --account=ioj@h100 --qos=qos_gpu_h100-dev --time=2:00:00 -D \$(pwd) --pty zsh -i"
 fi
 
 # Custom functions
