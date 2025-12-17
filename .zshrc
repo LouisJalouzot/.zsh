@@ -99,15 +99,15 @@ if [[ "$(whoami)" == "uml34gj" ]]; then
   }
 
   # Set default SLURM default options
-  export SBATCH_ACCOUNT=ioj@cpu
+  # export SBATCH_ACCOUNT=ioj@cpu
   export SLURM_ACCOUNT=ioj@cpu
-  export SBATCH_CPUS_PER_TASK=2
+  # export SBATCH_CPUS_PER_TASK=2
   export SLURM_CPUS_PER_TASK=2
-  export SBATCH_PARTITION=cpu_p1,prepost,visu,compil,compil_h100
+  # export SBATCH_PARTITION=cpu_p1,prepost,visu,compil,compil_h100
   export SLURM_PARTITION=cpu_p1,prepost,visu,compil,compil_h100
-  export SBATCH_HINT=nomultithread
+  # export SBATCH_HINT=nomultithread
   export SLURM_HINT=nomultithread
-  export SBATCH_TIMELIMIT=2:00:00
+  # export SBATCH_TIMELIMIT=2:00:00
   export SLURM_TIMELIMIT=2:00:00
 
   # Aliases for running interactive jobs
