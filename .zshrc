@@ -117,6 +117,15 @@ if [[ "$(whoami)" == "uml34gj" ]]; then
   alias run_v100="srun --gres=gpu:1 --constraint=v100 --cpus-per-task=10 --account=ioj@v100 --partition=gpu_p13 --qos=qos_gpu-dev --time=2:00:00 -D $(pwd) --pty zsh -i"
   alias run_a100="srun --gres=gpu:1 --constraint=a100 --cpus-per-task=8 --account=ioj@a100 --partition=gpu_p5 --qos=qos_gpu_a100-dev --time=2:00:00 -D $(pwd) --pty zsh -i"
   alias run_h100="srun --gres=gpu:1 --constraint=h100 --cpus-per-task=24 --account=ioj@h100 --partition=gpu_p6 --qos=qos_gpu_h100-dev --time=2:00:00 -D \$(pwd) --pty zsh -i"
+
+  # VSCode tunnel settings
+  # Enable token file authentification for consistency across nodes
+  export VSCODE_CLI_USE_FILE_KEYCHAIN=1
+  export VSCODE_CLI_DATA_DIR=~/.vscode-cli
+  # Export one machine ID if file does not exist
+  [[ -s "$HOME/.machine_id" ]] || cat /etc/machine-id > $HOME/.machine_id
+  # Alias to launch VSCode tunnel with fixed machine ID to avoid relogging on different HPC nodes
+  alias tunnel="unshare -r -m -u -f sh -c 'mount --bind $HOME/.machine_id /etc/machine-id; hostname hpc-tunnel; code tunnel --name jz --accept-server-license-terms'"
 fi
 
 # Custom functions
