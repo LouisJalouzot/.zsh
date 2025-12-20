@@ -72,10 +72,6 @@ alias sm="squeue --me"
 alias wsync="wandb sync --sync-all"
 alias ll="ls -laFh --color=auto"
 alias c=clear
-alias restart-plasmashell="systemctl --user restart plasma-plasmashell"
-alias rebuild="sudo sh -c 'nixos-rebuild switch |& nom'"
-alias rebuildU="sudo sh -c 'nixos-rebuild switch --upgrade |& nom'"
-alias gc="sudo sh -c 'nix-collect-garbage --delete-older-than 7d |& nom'"
 
 # Mounts for local machine
 alias mount-robust="sshfs -o follow_symlinks,reconnect,ServerAliveInterval=15,ServerAliveCountMax=3"
