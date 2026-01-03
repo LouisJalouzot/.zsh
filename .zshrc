@@ -72,6 +72,7 @@ alias sm="squeue --me"
 alias wsync="wandb sync --sync-all"
 alias ll="ls -laFh --color=auto"
 alias c=clear
+alias rclone-ui="rclone rcd --rc-web-gui"
 
 # Mounts for local machine
 alias mount-robust="sshfs -o follow_symlinks,reconnect,ServerAliveInterval=15,ServerAliveCountMax=3"
