@@ -24,6 +24,7 @@ repos=(
   "zdharma-continuum/fast-syntax-highlighting"
   "zsh-users/zsh-history-substring-search"
   "zsh-users/zsh-autosuggestions"
+  "agkozak/zsh-z" # 'z' directory jumping
 )
 
 # Load plugins
