@@ -126,30 +126,31 @@ if [[ "$(whoami)" == "uml34gj" ]]; then
   alias tunnel="unshare -r -m -u -f sh -c 'mount --bind $HOME/.machine_id /etc/machine-id; hostname hpc-tunnel; code tunnel --name jz --accept-server-license-terms'"
 fi
 
-# Custom functions
-function check_and_handle_venv() {
-  if [[ -z "$VIRTUAL_ENV" ]]; then
-    if [[ -d ./.venv ]]; then
-      echo "📦 Activating virtual environment in $(pwd)/.venv"
-      . .venv/bin/activate
-    fi
-  else
-    parentdir="$(dirname "$VIRTUAL_ENV")"
+# Auto-activate/deactivate Python virtual environments on directory change
+# Uses chpwd hook which triggers on ANY directory change (cd, z, pushd, popd, etc.)
+function _auto_venv() {
+  # First, handle deactivation if we've left the current venv's directory
+  if [[ -n "$VIRTUAL_ENV" ]]; then
+    local parentdir="$(dirname "$VIRTUAL_ENV")"
     if [[ "$PWD"/ != "$parentdir"/* ]]; then
       echo "🔌 Deactivating virtual environment from $VIRTUAL_ENV"
       deactivate
     fi
   fi
+
+  # Then, activate a new venv if present and not already active
+  if [[ -z "$VIRTUAL_ENV" && -d ./.venv ]]; then
+    echo "📦 Activating virtual environment in $(pwd)/.venv"
+    . .venv/bin/activate
+  fi
 }
+
+# Register the hook (chpwd is called whenever the current directory changes)
+autoload -Uz add-zsh-hook
+add-zsh-hook chpwd _auto_venv
 
 # Check for virtual environment at login
-check_and_handle_venv
-
-# Overload cd to check for virtual environment changes
-function cd() {
-  builtin cd "$@"
-  check_and_handle_venv
-}
+_auto_venv
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh
 [[ ! -f $ZDOTDIR/.p10k.zsh ]] || source $ZDOTDIR/.p10k.zsh
