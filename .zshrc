@@ -108,6 +108,10 @@ if [[ "$(whoami)" == "uml34gj" ]]; then
   # export SBATCH_TIMELIMIT=2:00:00
   export SLURM_TIMELIMIT=2:00:00
 
+  # SLURM sacct configuration
+  export FMT="jobid,state,partition,jobname,reqcpus,reqmem,nodelist,submit,start,end,elapsed,account"
+  alias sacct="sacct -X --format=${FMT} --units G"
+
   # Aliases for running interactive jobs
   function run_cpu() {
     srun --qos=qos_cpu-dev "$@" -D "$(pwd)" --pty zsh -i
