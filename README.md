@@ -1,6 +1,7 @@
 # Installation
 
 ```bash
+chsh -s $(which zsh)
 git clone https://github.com/LouisJalouzot/.zsh.git ~/.zsh
 ln -s ~/.zsh/.zshrc ~/.zshrc
 ln -s ~/.zsh/.tmux.conf ~/.tmux.conf
