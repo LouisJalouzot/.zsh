@@ -109,7 +109,7 @@ if [[ "$(whoami)" == "uml34gj" ]]; then
   export SLURM_TIMELIMIT=2:00:00
 
   # SLURM sacct configuration
-  export FMT="jobid,state,partition,jobname,reqcpus,reqmem,nodelist,submit,start,end,elapsed,account"
+  export FMT="jobid,state,partition,jobname,reqcpus,reqmem,nodelist,timelimit,submit,start,end,elapsed,account"
   alias sacct="sacct -X --format=${FMT} --units G"
 
   # Aliases for running interactive jobs
