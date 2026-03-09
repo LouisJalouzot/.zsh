@@ -113,12 +113,12 @@ if [[ "$(whoami)" == "uml34gj" ]]; then
   alias sacct="sacct -X --format=${FMT} --units G"
 
   # Aliases for running interactive jobs
-  function run_cpu() {
+  function cpu() {
     srun --qos=qos_cpu-dev "$@" -D "$(pwd)" --pty zsh -i
   }
-  alias run_v100="srun --gres=gpu:1 --constraint=v100 --cpus-per-task=10 --account=ioj@v100 --partition=gpu_p13 --qos=qos_gpu-dev --time=2:00:00 -D $(pwd) --pty zsh -i"
-  alias run_a100="srun --gres=gpu:1 --constraint=a100 --cpus-per-task=8 --account=ioj@a100 --partition=gpu_p5 --qos=qos_gpu_a100-dev --time=2:00:00 -D $(pwd) --pty zsh -i"
-  alias run_h100="srun --gres=gpu:1 --constraint=h100 --cpus-per-task=24 --account=ioj@h100 --partition=gpu_p6 --qos=qos_gpu_h100-dev --time=2:00:00 -D \$(pwd) --pty zsh -i"
+  alias v100="srun --gres=gpu:1 --constraint=v100 --cpus-per-task=10 --account=ioj@v100 --partition=gpu_p13 --qos=qos_gpu-dev --time=2:00:00 -D $(pwd) --pty zsh -i"
+  alias a100="srun --gres=gpu:1 --constraint=a100 --cpus-per-task=8 --account=ioj@a100 --partition=gpu_p5 --qos=qos_gpu_a100-dev --time=2:00:00 -D $(pwd) --pty zsh -i"
+  alias h100="srun --gres=gpu:1 --constraint=h100 --cpus-per-task=24 --account=ioj@h100 --partition=gpu_p6 --qos=qos_gpu_h100-dev --time=2:00:00 -D \$(pwd) --pty zsh -i"
 
   # VSCode tunnel settings
   # Enable token file authentification for consistency across nodes
