@@ -119,6 +119,9 @@ if [[ "$(whoami)" == "uml34gj" ]]; then
   alias v100="srun --gres=gpu:1 --constraint=v100 --cpus-per-task=10 --account=ioj@v100 --partition=gpu_p13 --qos=qos_gpu-dev --time=2:00:00 -D $(pwd) --pty zsh -i"
   alias a100="srun --gres=gpu:1 --constraint=a100 --cpus-per-task=8 --account=ioj@a100 --partition=gpu_p5 --qos=qos_gpu_a100-dev --time=2:00:00 -D $(pwd) --pty zsh -i"
   alias h100="srun --gres=gpu:1 --constraint=h100 --cpus-per-task=24 --account=ioj@h100 --partition=gpu_p6 --qos=qos_gpu_h100-dev --time=2:00:00 -D \$(pwd) --pty zsh -i"
+  alias 2h100="srun --gres=gpu:2 --constraint=h100 --cpus-per-task=48 --account=ioj@h100 --partition=gpu_p6 --qos=qos_gpu_h100-dev --time=2:00:00 -D \$(pwd) --pty zsh -i"
+  alias 3h100="srun --gres=gpu:3 --constraint=h100 --cpus-per-task=72 --account=ioj@h100 --partition=gpu_p6 --qos=qos_gpu_h100-dev --time=2:00:00 -D \$(pwd) --pty zsh -i"
+  alias 4h100="srun --gres=gpu:4 --constraint=h100 --cpus-per-task=96 --account=ioj@h100 --partition=gpu_p6 --qos=qos_gpu_h100-dev --time=2:00:00 -D \$(pwd) --pty zsh -i"
 
   # VSCode tunnel settings
   # Enable token file authentification for consistency across nodes
