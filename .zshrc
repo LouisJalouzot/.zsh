@@ -44,9 +44,6 @@ setopt INC_APPEND_HISTORY
 # Add ~/.local/bin to PATH
 export PATH="$HOME/.local/bin:$PATH"
 
-# Load Environment Modules if available
-[[ -s "/usr/share/Modules/init/zsh" ]] && source /usr/share/Modules/init/zsh
-
 # Source API keys if available
 [[ -f "$ZDOTDIR/.api_keys" ]] && source "$ZDOTDIR/.api_keys"
 
@@ -95,6 +92,15 @@ if [[ "$(whoami)" == "uml34gj" ]]; then
     fi
     eval $(idrenv -d $1)
   }
+
+  # Disable Bytecode Writing to force Python to run strictly in memory (faster startup)
+  export PYTHONDONTWRITEBYTECODE=1
+
+  # Source environment modules
+  export ENV_MODULES=/lustre/fshomisc/sup/spack_soft/environment-modules/current/init/zsh
+  [[ -s $ENV_MODULES ]] && source $ENV_MODULES
+  # Old:
+  # [[ -s "/usr/share/Modules/init/zsh" ]] && source /usr/share/Modules/init/zsh
 
   # Set default SLURM default options
   # export SBATCH_ACCOUNT=ioj@cpu
