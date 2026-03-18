@@ -167,3 +167,6 @@ _auto_venv
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh
 [[ ! -f $ZDOTDIR/.p10k.zsh ]] || source $ZDOTDIR/.p10k.zsh
+
+# MLFlow: disable background jobs (introduced in recent versions, default: true)
+export MLFLOW_SERVER_ENABLE_JOB_EXECUTION=false
