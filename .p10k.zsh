@@ -23,7 +23,7 @@
   emulate -L zsh -o extended_glob
 
   # Generate a consistent color (17-231) based on hostname for better contrast.
-  local hash_val=$(echo -n $(hostname) | cksum | awk '{print $1}')
+  local hash_val=$(echo -n "$(hostname)seed" | cksum | awk '{print $1}')
   local auto_color=$(( (hash_val % 214) + 17 ))
 
   # Manual overrides for specific hostnames.
