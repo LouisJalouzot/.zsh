@@ -37,3 +37,12 @@ This setup uses a minimal unplugged loader that clones plugins into `~/.zsh/plug
     rm -rf ~/.zsh/plugins
     source ~/.zshrc
     ```
+
+### Prompt Customization
+
+This setup uses **Powerlevel10k** with a dynamic background color based on the machine's hostname. This helps in visually identifying which machine you are currently logged into.
+
+- **Automatic Hashing**: Most hostnames will automatically generate a unique, consistent color.
+- **Manual Overrides**: You can force specific colors for certain machines by editing the `case` statement at the top of the anonymous function in [.p10k.zsh](.p10k.zsh#L29).
+- **Current Overrides**:
+    - `p14sg6`: Uses default Powerlevel10k colors.
