@@ -71,6 +71,10 @@ alias wsync="wandb sync --sync-all"
 alias ll="ls -laFh --color=auto"
 alias c=clear
 alias rclone-ui="rclone rcd --rc-web-gui"
+alias a=aichat
+alias ae="aichat -e"
+alias tcap="tmux capture-pane -p"
+alias tcapS="tmux capture-pane -pS -1000"
 
 # Mounts for local machine
 alias mount-robust="sshfs -o follow_symlinks,reconnect,ServerAliveInterval=15,ServerAliveCountMax=3"
