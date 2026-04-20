@@ -141,6 +141,13 @@ if [[ "$(whoami)" == "uml34gj" ]]; then
   [[ -s "$HOME/.machine_id" ]] || cat /etc/machine-id > $HOME/.machine_id
   # Alias to launch VSCode tunnel with fixed machine ID to avoid relogging on different HPC nodes
   alias tunnel="unshare -r -m -u -f sh -c 'mount --bind $HOME/.machine_id /etc/machine-id; hostname hpc-tunnel; code tunnel --name jz --accept-server-license-terms'"
+
+  # Proxy for MLFlow logging on compute nodes (need running `gost -L http://0.0.0.0:8888 -F $http_proxy` on `jean-zay1`)
+  if [ -n "$SLURM_JOB_ID" ] && [ "$SLURM_JOB_PARTITION" != "prepost" ]; then
+    FRONTAL_IP=$(getent hosts jean-zay1 | awk '{print $1}')
+    export HTTP_PROXY="http://${FRONTAL_IP}:8888"
+    export HTTPS_PROXY="http://${FRONTAL_IP}:8888"
+  fi
 fi
 
 # Auto-activate/deactivate Python virtual environments on directory change
