@@ -44,6 +44,9 @@ setopt INC_APPEND_HISTORY
 # Add ~/.local/bin to PATH
 export PATH="$HOME/.local/bin:$PATH"
 
+# Git configuration: set global gitignore if not already set and if ~/.gitignore exists
+[ -z "$(git config --global core.excludesfile)" ] && [ -f ~/.gitignore ] && git config --global core.excludesfile ~/.gitignore
+
 # Source API keys if available
 [[ -f "$ZDOTDIR/.api_keys" ]] && source "$ZDOTDIR/.api_keys"
 
