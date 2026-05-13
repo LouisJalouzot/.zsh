@@ -41,6 +41,7 @@ This setup uses a minimal unplugged loader that clones plugins into `~/.zsh/plug
 ### Tmux Configuration
 
 The `.tmux.conf` is symlinked to `~/.tmux.conf`. TPM discovers and installs plugins from the standard config locations (`~/.tmux.conf` or `$XDG_CONFIG_HOME/tmux/tmux.conf`), so this symlink ensures plugins are properly initialized on startup.
+Note: might need to "Ctrl + b, I" to activate monitoring in the bottom bar.
 
 ### Prompt Customization
 

@@ -80,11 +80,15 @@ alias tcap="tmux capture-pane -p"
 alias tcapS="tmux capture-pane -pS -1000"
 
 # Mounts for local machine
-alias mount-robust="sshfs -o follow_symlinks,reconnect,ServerAliveInterval=15,ServerAliveCountMax=3"
-alias mount-unicog="mount-robust unicog:/data/ljalouzot ~/data/unicog"
-alias mount-jz="mount-robust jz-karavela:/linkhome/rech/genscp01/uml34gj ~/data/jz"
-alias mount-coml="mount-robust oberon:/scratch2/ljalouzot ~/data/coml"
-alias mount-nautilus="mount-robust nautilus:/neurospin/tmp/ljalouzot ~/data/nautilus"
+mount-robust() {
+  mkdir -p "$2"
+  sshfs -o follow_symlinks,reconnect,delay_connect,ServerAliveInterval=5,ServerAliveCountMax=1,ConnectTimeout=5,ConnectionAttempts=1 "$@"
+  echo "Mounted $1 -> $2"
+}
+alias mount-unicog="mount-robust unicog:/data/ljalouzot ~/mnt/unicog"
+alias mount-jz="mount-robust jz-karavela:/linkhome/rech/genscp01/uml34gj ~/mnt/jz"
+alias mount-coml="mount-robust oberon:/scratch2/ljalouzot ~/mnt/coml"
+alias mount-nautilus="mount-robust nautilus:/neurospin/tmp/ljalouzot ~/mnt/nautilus"
 
 # JZ specific config
 if [[ "$(whoami)" == "uml34gj" ]]; then
