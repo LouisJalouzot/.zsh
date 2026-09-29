@@ -89,9 +89,23 @@ mount-robust() {
   echo "Mounted $1 -> $2"
 }
 
+# Arrhenius specific config
+if [[ "$(hostname)" == "arrhenius"* || "$HPC_RESOURCE_NAME" == "arrhenius" ]]; then
+  export UV_HTTP_TIMEOUT=36000
+  export PYTHONDONTWRITEBYTECODE=1
+  PROJECT_ID=$(
+    sacctmgr list assoc where user="$USER" format=Account -P --noheader \
+    | head -1 | sed -E 's/-(cpu|gpu)$//'
+  )
+  alias gpu="interactive -p gpu --gpus=1"
+fi
+
 # JZ specific config
 if [[ "$(hostname)" == "jean-zay"* || "$SLURM_CLUSTER_NAME" == "jean-zay" ]]; then
   export UV_HTTP_TIMEOUT=36000
+
+  # Disable Bytecode Writing to force Python to run strictly in memory (faster startup)
+  export PYTHONDONTWRITEBYTECODE=1
 
   # Switch between projects (ex switch abc)
   switch() {
@@ -102,14 +116,9 @@ if [[ "$(hostname)" == "jean-zay"* || "$SLURM_CLUSTER_NAME" == "jean-zay" ]]; th
     eval $(idrenv -d $1)
   }
 
-  # Disable Bytecode Writing to force Python to run strictly in memory (faster startup)
-  export PYTHONDONTWRITEBYTECODE=1
-
   # Source environment modules
   export ENV_MODULES=/lustre/fshomisc/sup/spack_soft/environment-modules/current/init/zsh
   [[ -s $ENV_MODULES ]] && source $ENV_MODULES
-  # Old:
-  # [[ -s "/usr/share/Modules/init/zsh" ]] && source /usr/share/Modules/init/zsh
 
   # Set default SLURM default options
   export SLURM_ACCOUNT=$IDRPROJ@cpu
