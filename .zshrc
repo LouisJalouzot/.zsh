@@ -65,6 +65,9 @@ bindkey '^[[1;3D' backward-word # Ctrl+Left
 bindkey '^[[1;5C' forward-word # Ctrl+Right
 bindkey '^[[1;5D' backward-word # Ctrl+Left
 
+# Enable centralized project environments for UV
+export UV_PREVIEW_FEATURES=centralized-project-envs
+
 # Custom aliases
 alias t=tmux
 alias ta="tmux attach"
@@ -85,17 +88,12 @@ mount-robust() {
   sshfs -o follow_symlinks,reconnect,delay_connect,ServerAliveInterval=5,ServerAliveCountMax=1,ConnectTimeout=5,ConnectionAttempts=1 "$@"
   echo "Mounted $1 -> $2"
 }
-alias mount-unicog="mount-robust unicog:/data/ljalouzot ~/mnt/unicog"
-alias mount-jz="mount-robust jz:/linkhome/rech/genscp01/uml34gj ~/mnt/jz"
-alias mount-coml="mount-robust oberon:/scratch2/ljalouzot ~/mnt/coml"
-alias mount-nautilus="mount-robust nautilus:/neurospin/tmp/ljalouzot ~/mnt/nautilus"
 
 # JZ specific config
-if [[ "$(whoami)" == "uml34gj" ]]; then
+if [[ "$(hostname)" == "jean-zay"* || "$SLURM_CLUSTER_NAME" == "jean-zay" ]]; then
   export UV_HTTP_TIMEOUT=36000
-  export UV_PREVIEW_FEATURES=centralized-project-envs
 
-  # Switch between projects (ex switch ioj)
+  # Switch between projects (ex switch abc)
   switch() {
     if [ -z "$1" ]; then
       echo "Usage: switch <environment_name>"
@@ -114,15 +112,10 @@ if [[ "$(whoami)" == "uml34gj" ]]; then
   # [[ -s "/usr/share/Modules/init/zsh" ]] && source /usr/share/Modules/init/zsh
 
   # Set default SLURM default options
-  # export SBATCH_ACCOUNT=ioj@cpu
-  export SLURM_ACCOUNT=ioj@cpu
-  # export SBATCH_CPUS_PER_TASK=2
+  export SLURM_ACCOUNT=$IDRPROJ@cpu
   export SLURM_CPUS_PER_TASK=2
-  # export SBATCH_PARTITION=cpu_p1,prepost,visu,compil,compil_h100
   export SLURM_PARTITION=cpu_p1,prepost,visu,compil,compil_h100
-  # export SBATCH_HINT=nomultithread
   export SLURM_HINT=nomultithread
-  # export SBATCH_TIMELIMIT=2:00:00
   export SLURM_TIMELIMIT=2:00:00
 
   # SLURM sacct configuration
@@ -133,12 +126,12 @@ if [[ "$(whoami)" == "uml34gj" ]]; then
   function cpu() {
     srun --qos=qos_cpu-dev "$@" -D "$(pwd)" --pty zsh -i
   }
-  alias v100="srun --gres=gpu:1 --constraint=v100 --cpus-per-task=10 --account=emi@v100 --partition=gpu_p13 --qos=qos_gpu-dev --time=2:00:00 -D $(pwd) --pty zsh -i"
-  alias a100="srun --gres=gpu:1 --constraint=a100 --cpus-per-task=8 --account=emi@a100 --partition=gpu_p5 --qos=qos_gpu_a100-dev --time=2:00:00 -D $(pwd) --pty zsh -i"
-  alias h100="srun --gres=gpu:1 --constraint=h100 --cpus-per-task=24 --account=ioj@h100 --partition=gpu_p6 --qos=qos_gpu_h100-dev --time=2:00:00 -D \$(pwd) --pty zsh -i"
-  alias 2h100="srun --gres=gpu:2 --constraint=h100 --cpus-per-task=48 --account=ioj@h100 --partition=gpu_p6 --qos=qos_gpu_h100-dev --time=2:00:00 -D \$(pwd) --pty zsh -i"
-  alias 3h100="srun --gres=gpu:3 --constraint=h100 --cpus-per-task=72 --account=ioj@h100 --partition=gpu_p6 --qos=qos_gpu_h100-dev --time=2:00:00 -D \$(pwd) --pty zsh -i"
-  alias 4h100="srun --gres=gpu:4 --constraint=h100 --cpus-per-task=96 --account=ioj@h100 --partition=gpu_p6 --qos=qos_gpu_h100-dev --time=2:00:00 -D \$(pwd) --pty zsh -i"
+  alias v100="srun --gres=gpu:1 --constraint=v100 --cpus-per-task=10 --account=$IDRPROJ@v100 --partition=gpu_p13 --qos=qos_gpu-dev --time=2:00:00 -D $(pwd) --pty zsh -i"
+  alias a100="srun --gres=gpu:1 --constraint=a100 --cpus-per-task=8 --account=$IDRPROJ@a100 --partition=gpu_p5 --qos=qos_gpu_a100-dev --time=2:00:00 -D $(pwd) --pty zsh -i"
+  alias h100="srun --gres=gpu:1 --constraint=h100 --cpus-per-task=24 --account=$IDRPROJ@h100 --partition=gpu_p6 --qos=qos_gpu_h100-dev --time=2:00:00 -D \$(pwd) --pty zsh -i"
+  alias 2h100="srun --gres=gpu:2 --constraint=h100 --cpus-per-task=48 --account=$IDRPROJ@h100 --partition=gpu_p6 --qos=qos_gpu_h100-dev --time=2:00:00 -D \$(pwd) --pty zsh -i"
+  alias 3h100="srun --gres=gpu:3 --constraint=h100 --cpus-per-task=72 --account=$IDRPROJ@h100 --partition=gpu_p6 --qos=qos_gpu_h100-dev --time=2:00:00 -D \$(pwd) --pty zsh -i"
+  alias 4h100="srun --gres=gpu:4 --constraint=h100 --cpus-per-task=96 --account=$IDRPROJ@h100 --partition=gpu_p6 --qos=qos_gpu_h100-dev --time=2:00:00 -D \$(pwd) --pty zsh -i"
 
   # VSCode tunnel settings
   # Enable token file authentification for consistency across nodes
@@ -185,7 +178,7 @@ c
 # Register the hook (chpwd is called whenever the current directory changes)
 autoload -Uz add-zsh-hook
 add-zsh-hook chpwd _auto_venv
-eval "$(direnv hook zsh)"
+command -v direnv >/dev/null 2>&1 && eval "$(direnv hook zsh)"
 
 # Check for virtual environment at login
 _auto_venv
@@ -195,6 +188,3 @@ _auto_venv
 
 # MLFlow: disable background jobs (introduced in recent versions, default: true)
 export MLFLOW_SERVER_ENABLE_JOB_EXECUTION=false
-
-# Added by Antigravity CLI installer
-export PATH="/linkhome/rech/genscp01/uml34gj/.local/bin:$PATH"

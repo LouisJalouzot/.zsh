@@ -1,8 +1,22 @@
 # Installation
 
+1. Try changing default shell to zsh:
 ```bash
 chsh -s $(which zsh)
+```
+
+If this command is not authorized (e.g. HPC), add the following to `~/.bash_profile`:
+```bash
+echo "exec zsh -l" >> ~/.bash_profile
+```
+
+2. Clone this repository and set up symlinks for the configuration files:
+```bash
 git clone https://github.com/LouisJalouzot/.zsh.git ~/.zsh
+
+[[ -e ~/.zshrc || -L ~/.zshrc ]] && mv ~/.zshrc ~/.zshrc.bk.$(date +%Y%m%d%H%M%S)
+[[ -e ~/.tmux.conf || -L ~/.tmux.conf ]] && mv ~/.tmux.conf ~/.tmux.conf.$(date +%Y%m%d%H%M%S)
+
 ln -s ~/.zsh/.zshrc ~/.zshrc
 ln -s ~/.zsh/.tmux.conf ~/.tmux.conf
 source ~/.zshrc
